@@ -1,0 +1,30 @@
+<svg width="180" height="40" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pin + book icon -->
+  <defs>
+    <linearGradient id="sfGradient" x1="0" y1="0" x2="0" y2="40" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Location pin -->
+  <path
+    d="M20 3C13.9249 3 9 7.92487 9 14C9 21.5 17.5 27.5 19.3 30.9C19.5 31.3 19.7 31.5 20 31.5C20.3 31.5 20.5 31.3 20.7 30.9C22.5 27.5 31 21.5 31 14C31 7.92487 26.0751 3 20 3Z"
+    fill="url(#sfGradient)"
+  />
+  <!-- Book inside pin -->
+  <path
+    d="M14.5 14.2V10.8C14.5 10.36 14.86 10 15.3 10H19.2C20.4 10 21.4 10.54 22 11.3C22.6 10.54 23.6 10 24.8 10H28.7C29.14 10 29.5 10.36 29.5 10.8V14.2C29.5 14.64 29.14 15 28.7 15H25C23.6 15 22.6 15.54 22 16.3C21.4 15.54 20.4 15 19 15H15.3C14.86 15 14.5 14.64 14.5 14.2Z"
+    fill="white"
+  />
+
+  <!-- Text: School Finder -->
+  <text x="40" y="16" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="14" font-weight="700" fill="#111827">
+    School
+  </text>
+  <text x="40" y="30" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="14" font-weight="600" fill="#2563EB">
+    Finder
+  </text>
+</svg>

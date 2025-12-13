@@ -1,0 +1,137 @@
+/* ========================================
+   CONTACT PAGE
+   ======================================== */
+
+.contact-page {
+    padding: 3rem 0;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+.contact-info-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+}
+
+.contact-info-text {
+    color: var(--color-text-muted);
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.contact-detail {
+    margin-bottom: 2rem;
+}
+
+.contact-detail h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.contact-detail p {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+}
+
+.contact-detail .highlight {
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+.contact-form-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.contact-form-card .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.contact-form-card .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.contact-form-card .form-input,
+.contact-form-card .form-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    transition: border-color 0.2s;
+}
+
+.contact-form-card .form-input:focus,
+.contact-form-card .form-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.contact-form-card .btn {
+    width: 100%;
+    padding: 0.875rem;
+    font-weight: 600;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 992px) {
+    .contact-grid {
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-page {
+        padding: 2rem 0;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+
+    .contact-info-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .contact-info-text {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .contact-detail {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .contact-form-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-info-title {
+        font-size: 1.75rem;
+    }
+
+    .contact-form-card {
+        padding: 1.25rem;
+    }
+}
