@@ -12,16 +12,31 @@ const SuperAdminPanel = () => {
     const [analytics, setAnalytics] = useState(null);
     const [adminStats, setAdminStats] = useState([]);
     const [messages, setMessages] = useState([]);
-    const [loading, setLoading] = useState(true);
+
+    // UI State
     const [activeTab, setActiveTab] = useState('pending');
+    const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState({ message: '', type: '' });
+
+    // Modal State
     const [rejectModalOpen, setRejectModalOpen] = useState(false);
     const [selectedSchoolId, setSelectedSchoolId] = useState(null);
     const [rejectionReason, setRejectionReason] = useState('');
 
+
     useEffect(() => {
         fetchData();
     }, [activeTab]);
+
+    // Auto-dismiss alerts after 4 seconds
+    useEffect(() => {
+        if (alert.message) {
+            const timer = setTimeout(() => {
+                setAlert({ message: '', type: '' });
+            }, 4000);
+            return () => clearTimeout(timer);
+        }
+    }, [alert]);
 
     const fetchData = async () => {
         try {
@@ -55,6 +70,7 @@ const SuperAdminPanel = () => {
                 const res = await api.get('/contact');
                 console.log('Messages response:', res.data);
                 setMessages(res.data.data || []);
+
             }
             setLoading(false);
         } catch (err) {
@@ -204,6 +220,36 @@ const SuperAdminPanel = () => {
         <div className="superadmin-container">
             <h1 className="superadmin-title">Super Admin Panel</h1>
 
+            {/* Alert Toast */}
+            {alert.message && (
+                <div style={{
+                    position: 'fixed',
+                    top: '20px',
+                    right: '20px',
+                    padding: '1rem 1.5rem',
+                    borderRadius: '12px',
+                    background: alert.type === 'success' ? '#dcfce7' : alert.type === 'error' ? '#fecaca' : '#fef3c7',
+                    color: alert.type === 'success' ? '#166534' : alert.type === 'error' ? '#991b1b' : '#92400e',
+                    border: `1px solid ${alert.type === 'success' ? '#86efac' : alert.type === 'error' ? '#fca5a5' : '#fcd34d'}`,
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
+                    zIndex: 9999,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    maxWidth: '400px',
+                    animation: 'slideIn 0.3s ease'
+                }}>
+                    <span style={{ fontSize: '1.25rem' }}>
+                        {alert.type === 'success' ? '✅' : alert.type === 'error' ? '❌' : '⚠️'}
+                    </span>
+                    <span style={{ fontWeight: '500' }}>{alert.message}</span>
+                    <button
+                        onClick={() => setAlert({ message: '', type: '' })}
+                        style={{ marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', opacity: 0.7 }}
+                    >×</button>
+                </div>
+            )}
+
             <div className="auth-tabs">
                 <div className={`auth-tab ${activeTab === 'pending' ? 'active' : ''}`} onClick={() => setActiveTab('pending')}>
                     Pending Approvals
@@ -211,6 +257,7 @@ const SuperAdminPanel = () => {
                 <div className={`auth-tab ${activeTab === 'schools' ? 'active' : ''}`} onClick={() => setActiveTab('schools')}>
                     All Schools
                 </div>
+
                 <div className={`auth-tab ${activeTab === 'users' ? 'active' : ''}`} onClick={() => setActiveTab('users')}>
                     Users
                 </div>
@@ -635,30 +682,35 @@ const SuperAdminPanel = () => {
                 </div>
             )}
 
+
+
+
             {/* Reject Modal */}
-            {rejectModalOpen && (
-                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
-                    <div style={{ background: 'white', padding: '2rem', borderRadius: '12px', width: '400px', maxWidth: '90%', boxShadow: '0 10px 40px rgba(0,0,0,0.2)' }}>
-                        <h3 style={{ marginBottom: '1rem' }}>Reject School</h3>
-                        <div className="form-group">
-                            <label>Reason for Rejection</label>
-                            <textarea
-                                className="form-textarea"
-                                rows="4"
-                                value={rejectionReason}
-                                onChange={(e) => setRejectionReason(e.target.value)}
-                                placeholder="Enter reason..."
-                                style={{ width: '100%', marginTop: '0.5rem' }}
-                            ></textarea>
-                        </div>
-                        <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
-                            <button onClick={handleRejectSubmit} className="btn btn-primary" style={{ background: 'red', borderColor: 'red', flex: 1 }}>Reject</button>
-                            <button onClick={() => setRejectModalOpen(false)} className="btn btn-outline" style={{ flex: 1 }}>Cancel</button>
+            {
+                rejectModalOpen && (
+                    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
+                        <div style={{ background: 'white', padding: '2rem', borderRadius: '12px', width: '400px', maxWidth: '90%', boxShadow: '0 10px 40px rgba(0,0,0,0.2)' }}>
+                            <h3 style={{ marginBottom: '1rem' }}>Reject School</h3>
+                            <div className="form-group">
+                                <label>Reason for Rejection</label>
+                                <textarea
+                                    className="form-textarea"
+                                    rows="4"
+                                    value={rejectionReason}
+                                    onChange={(e) => setRejectionReason(e.target.value)}
+                                    placeholder="Enter reason..."
+                                    style={{ width: '100%', marginTop: '0.5rem' }}
+                                ></textarea>
+                            </div>
+                            <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+                                <button onClick={handleRejectSubmit} className="btn btn-primary" style={{ background: 'red', borderColor: 'red', flex: 1 }}>Reject</button>
+                                <button onClick={() => setRejectModalOpen(false)} className="btn btn-outline" style={{ flex: 1 }}>Cancel</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 };
 

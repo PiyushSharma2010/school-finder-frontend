@@ -205,8 +205,10 @@ const AdminDashboard = () => {
     };
 
     const handleSchoolSelect = async (school) => {
-        if (!school.isApproved) {
-            setAlert('You can only edit approved schools. Pending schools are locked until approval.', 'warning');
+        // Allow editing if approved OR needs resubmission (claimed schools)
+        // Only block if it's a new pending school waiting for approval (and not flagged for resubmission)
+        if (!school.isApproved && !school.needsResubmission) {
+            setAlert('You can only edit approved schools or schools requiring resubmission. Pending approvals are locked.', 'warning');
             return;
         }
 

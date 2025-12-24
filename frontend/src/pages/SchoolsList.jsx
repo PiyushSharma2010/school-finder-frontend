@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useAlert } from '../context/AlertContext';
 import SchoolCard from '../components/SchoolCard';
 import FilterPanel from '../components/FilterPanel';
+import ChooseLocationModal from '../components/ChooseLocationModal';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaFilter, FaSearch, FaSave, FaTimes, FaLocationArrow } from 'react-icons/fa';
 import '../styles/modern-theme.css';
@@ -18,6 +19,7 @@ const SchoolsList = () => {
     const [loading, setLoading] = useState(true);
     const [searchName, setSearchName] = useState('');
     const [showFilters, setShowFilters] = useState(false);
+    const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
     const [filters, setFilters] = useState({
         city: '', board: '', minFee: '', maxFee: '',
         facilities: '', classes: '', sort: '-createdAt'
@@ -42,6 +44,12 @@ const SchoolsList = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleManualLocationSearch = (searchCity) => {
+        setFilters(prev => ({ ...prev, city: searchCity }));
+        setAlert(`Searching schools in ${searchCity}`, 'success');
+        fetchSchools(`city=${searchCity}`);
     };
 
     const handleUseLocation = () => {
@@ -131,10 +139,10 @@ const SchoolsList = () => {
                         <div style={{ display: 'flex', gap: '1rem' }}>
                             <button
                                 className="btn btn-outline"
-                                onClick={handleUseLocation}
+                                onClick={() => setIsLocationModalOpen(true)}
                                 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                             >
-                                <FaLocationArrow /> Use My Location
+                                <FaLocationArrow /> Choose Location
                             </button>
                             <button
                                 className="btn btn-outline"
@@ -300,6 +308,13 @@ const SchoolsList = () => {
                 </div>
 
             </div>
+
+            <ChooseLocationModal
+                isOpen={isLocationModalOpen}
+                onClose={() => setIsLocationModalOpen(false)}
+                onUseCurrentLocation={handleUseLocation}
+                onManualSearch={handleManualLocationSearch}
+            />
 
             <style>{`
                 @keyframes pulse {

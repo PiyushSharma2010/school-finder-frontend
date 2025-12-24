@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     FaUser, FaHeart, FaStickyNote, FaHistory, FaMapMarkedAlt,
     FaSearch, FaExchangeAlt, FaCog, FaEdit, FaTrash,
-    FaExclamationTriangle, FaLock, FaTimes, FaBars, FaSignOutAlt
+    FaExclamationTriangle, FaLock, FaTimes, FaBars, FaSignOutAlt,
+    FaClipboardList, FaClock, FaCheck, FaTimes as FaTimesCircle
 } from 'react-icons/fa';
 
 import api from '../services/api';
@@ -26,6 +27,7 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('profile');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
 
     const [showNoteModal, setShowNoteModal] = useState(false);
     const [newNote, setNewNote] = useState({ school: '', noteText: '' });
@@ -83,12 +85,16 @@ const Dashboard = () => {
 
             const notesRes = await api.get('/notes');
             setNotes(notesRes.data.data);
+
+
         } catch (err) {
             console.error(err);
         } finally {
             setLoading(false);
         }
     };
+
+
 
     // Handle Complete Profile submission
     const handleCompleteProfile = async (e) => {
@@ -236,6 +242,7 @@ const Dashboard = () => {
 
     const navItems = [
         { id: 'profile', label: 'Profile', icon: <FaUser /> },
+
         { id: 'favourites', label: 'Favourites', icon: <FaHeart /> },
         { id: 'notes', label: 'My Notes', icon: <FaStickyNote /> },
         { id: 'recent', label: 'Recently Viewed', icon: <FaHistory /> },
@@ -418,6 +425,10 @@ const Dashboard = () => {
                             </button>
                         </div>
                     )}
+
+
+
+
 
                     {activeTab === 'favourites' && (
                         <div>

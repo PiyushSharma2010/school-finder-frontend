@@ -724,6 +724,9 @@
     justify-content: center;
     gap: 0.3rem;
     margin: 0 auto;
+    pointer-events: auto; /* Fix for clickability */
+    z-index: 20; /* Ensure above banners */
+    position: relative;
 }
 
 .btn-report:hover {
