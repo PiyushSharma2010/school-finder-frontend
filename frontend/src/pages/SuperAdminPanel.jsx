@@ -113,12 +113,18 @@ const SuperAdminPanel = () => {
         }
     };
 
-    const toggleSchoolVerification = async (id, isVerified) => {
+    const toggleSchoolVerification = async (id, currentStatus) => {
+        // Optimistic Update
+        setSchools(prev => prev.map(s => s._id === id ? { ...s, isVerified: !currentStatus } : s));
+
         try {
-            await api.put(`/admin/schools/${id}/verify`, { isVerified: !isVerified });
-            setAlert(`School ${!isVerified ? 'verified' : 'unverified'}`, 'success');
-            fetchData();
+            const res = await api.put(`/admin/schools/${id}/verify`, { isVerified: !currentStatus });
+            // Ensure state matches server response exactly
+            setSchools(prev => prev.map(s => s._id === id ? { ...s, isVerified: res.data.data.isVerified } : s));
+            setAlert(`School ${!currentStatus ? 'verified' : 'unverified'}`, 'success');
         } catch (err) {
+            // Rollback on error
+            setSchools(prev => prev.map(s => s._id === id ? { ...s, isVerified: currentStatus } : s));
             console.error(err);
             setAlert('Failed to update verification status', 'error');
         }
